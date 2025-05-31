@@ -27,15 +27,11 @@ public class ForoController {
 
     @PostMapping
     public ResponseEntity<ForoCurso> createForo(@RequestBody ForoCurso foro) {
-        try {
-            if (foro.getIdForo() != null) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            var newforo = foroService.save(foro);
-            return new ResponseEntity<>(newforo, HttpStatus.CREATED);
-        } catch (DataIntegrityViolationException e) {
+        if (foroService.existsMensaje(foro.getMensajes())) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+        ForoCurso newMensaje = foroService.save(foro);
+        return new ResponseEntity<>(newMensaje, HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -79,22 +75,4 @@ public class ForoController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
-
-    // @PutMapping("/{id}")
-    // public ResponseEntity<ForoCurso> putForo(@RequestBody ForoCurso fC,
-    // @PathVariable Integer idFc) {
-    // try {
-    // var foro = foroService.findById(idFc);
-    // if (!foro.isPresent()) {
-    // return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    // }
-    // fC.setIdCurso(idFc);
-
-    // var newforo = foro.get();
-
-    // } catch (Exception e) {
-    // return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    // }
-    // }
-
 }

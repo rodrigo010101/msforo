@@ -3,6 +3,8 @@ package com.edutech.msforos.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,15 +26,16 @@ public class ForoCurso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(nullable = false)
-    private Integer idForo;
+    private int idForo;
 
     @Column(nullable = false)
-    private Integer idCurso;
+    private int idCurso;
 
     @Column(nullable = false)
     private boolean habilitado = true;
 
     @OneToMany(mappedBy = "foroCurso", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<MensajeForo> mensajes = new ArrayList<>();
 
     public void habilitadoCurso() {

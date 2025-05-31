@@ -1,12 +1,10 @@
 package com.edutech.msforos.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
-import jakarta.persistence.CollectionTable;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -42,12 +40,8 @@ public class MensajeForo {
     private LocalDate fechaCreacion;
 
     @ManyToOne
-    @JoinColumn(name = "foro_curso_id", nullable = false)
+    @JoinColumn(name = "foro_curso_id")
+    @JsonBackReference
     private ForoCurso foroCurso;
-
-    @ElementCollection
-    @CollectionTable(name = "mensaje_usuario", joinColumns = @JoinColumn(name = "mensaje_id"))
-    @Column(name = "usuario_id")
-    private List<Integer> usuariosIds = new ArrayList<>();
 
 }

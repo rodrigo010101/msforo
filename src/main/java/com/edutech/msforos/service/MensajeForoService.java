@@ -30,4 +30,11 @@ public class MensajeForoService {
         mForoRepository.deleteById(id);
     }
 
+    // public boolean existsByMensaje(String mensaje){
+    // try {
+    // MensajeForo foro = mForoRepository.existsByMensaje(mensaje)
+    // } catch (Exception e) {
+    // // TODO: handle exception
+    // }
+    // }
 }

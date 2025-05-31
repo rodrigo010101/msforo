@@ -5,9 +5,13 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.config.MvcNamespaceHandler;
 
 import com.edutech.msforos.model.ForoCurso;
+import com.edutech.msforos.model.MensajeForo;
 import com.edutech.msforos.repository.ForoRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ForoService {
@@ -22,24 +26,51 @@ public class ForoService {
         return fRepository.findAll();
     }
 
-    public Optional<ForoCurso> findById(Integer idforo) {
+    public Optional<ForoCurso> findById(int idforo) {
         return fRepository.findById(idforo);
     }
 
-    public void deleteById(Integer idForo) {
+    public void deleteById(int idForo) {
         fRepository.findById(idForo);
     }
 
-    public void activado(Integer idforo) {
-        var foro = fRepository.findById(idforo)
-                .orElseThrow(() -> new RuntimeException("El idForo" + idforo + "no existe"));
-        foro.habilitadoCurso();
+    public void activado(int idforo) {
+        Optional<ForoCurso> foro = fRepository.findById(idforo);
+        if (foro.isPresent()) {
+            ForoCurso fo = foro.get();
+            fo.setHabilitado(true);
+            fRepository.save(fo);
+        }
     }
 
-    public void desactivado(Integer idforo) {
-        var foro = fRepository.findById(idforo)
-                .orElseThrow(() -> new RuntimeException("El idForo " + idforo + " no existe"));
-        foro.deshabilitadoCurso();
+    public void desactivado(int idforo) {
+        Optional<ForoCurso> foro = fRepository.findById(idforo);
+        if (foro.isPresent()) {
+            ForoCurso fo = foro.get();
+            fo.setHabilitado(false);
+            fRepository.save(fo);
+        } else {
+            throw new EntityNotFoundException("foro curso no encontrado " + idforo);
+        }
+    }
+
+    public boolean update(int id, ForoCurso foroCurso) {
+        Optional<ForoCurso> fCurso = fRepository.findById(id);
+
+        if (fCurso.isPresent()) {
+            ForoCurso fC = fCurso.get();
+            fC.setIdForo(id);
+            fC.setMensajes(foroCurso.getMensajes());
+            fRepository.save(fC);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean existsMensaje(List<MensajeForo> mensajes) {
+        return mensajes.stream()
+                .anyMatch(m -> fRepository.findByMensajes(m.getContenido()).isPresent());
     }
 
 }
