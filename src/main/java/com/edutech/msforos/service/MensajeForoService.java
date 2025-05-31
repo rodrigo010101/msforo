@@ -26,15 +26,17 @@ public class MensajeForoService {
         return mForoRepository.findById(id);
     }
 
-    public void deleteById(Integer id) {
+    public void deleteById(int id) {
         mForoRepository.deleteById(id);
     }
 
-    // public boolean existsByMensaje(String mensaje){
-    // try {
-    // MensajeForo foro = mForoRepository.existsByMensaje(mensaje)
-    // } catch (Exception e) {
-    // // TODO: handle exception
-    // }
-    // }
+    public boolean exitsTituloEnForo(MensajeForo titulo) {
+        return titulo.getForoCurso().getMensajes().stream()
+                .anyMatch(t -> t.getTitulo().equalsIgnoreCase(titulo.getTitulo()));
+    }
+
+    public boolean exitsAutorEnForo(MensajeForo autor) {
+        return autor.getForoCurso().getMensajes().stream()
+                .anyMatch(a -> a.getAutor().equalsIgnoreCase(autor.getAutor()));
+    }
 }

@@ -46,4 +46,12 @@ public class ForoCurso {
         this.habilitado = false;
     }
 
+    public void addMensajes(MensajeForo nuevo) {
+        mensajes.add(nuevo);
+    }
+
+    public void removeMensaje(MensajeForo mensaje) {
+        mensajes.remove(mensaje);
+        mensaje.setForoCurso(null);
+    }
 }

@@ -25,7 +25,7 @@ public class MensajeForo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(nullable = false)
-    private Integer idMensaje;
+    private int idMensaje;
 
     @Column(length = 100, nullable = false)
     private String titulo;
