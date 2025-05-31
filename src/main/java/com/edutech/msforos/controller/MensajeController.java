@@ -1,8 +1,6 @@
 package com.edutech.msforos.controller;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,7 +59,18 @@ public class MensajeController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NO_CONTENT));
     }
 
-    @PutMapping
+    @PutMapping("/update/{id}")
+    public ResponseEntity<MensajeForo> updateMenForo(@PathVariable int id, @RequestBody MensajeForo mensForo) {
+        var linkId = mensajeForoService.findById(id);
+        if (!linkId.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        if (mensajeForoService.update(id, mensForo)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delMensaje(@PathVariable int id) {
