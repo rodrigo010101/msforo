@@ -3,18 +3,19 @@ package com.edutech.msforos.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.edutech.msforos.model.ForoCurso;
+import com.edutech.msforos.model.MensajeForo;
 import com.edutech.msforos.service.ForoService;
 
 @RestController
@@ -26,11 +27,20 @@ public class ForoController {
 
     @PostMapping
     public ResponseEntity<ForoCurso> createForo(@RequestBody ForoCurso foro) {
-        if (foroService.existsMensaje(foro.getMensajes())) {
+
+        MensajeForo mensajeForo = new MensajeForo();
+
+        if (mensajeForo.getTitulo() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if (mensajeForo.getAutor() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if (foroService.existsByTitulo(mensajeForo.getTitulo()) || foroService.existsByTitulo(mensajeForo.getAutor())) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        ForoCurso newMensaje = foroService.save(foro);
-        return new ResponseEntity<>(newMensaje, HttpStatus.CREATED);
+        ForoCurso newForo = foroService.save(foro);
+        return new ResponseEntity<>(newForo, HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -59,12 +69,11 @@ public class ForoController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/del/{id}")
     public ResponseEntity<ForoCurso> deleteForo(@PathVariable Integer idforo) {
         try {
             var foro = foroService.findById(idforo);
             if (!foro.isPresent()) {
-                // ResponseEntity.notFound().build();
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             foroService.deleteById(idforo);
@@ -73,5 +82,18 @@ public class ForoController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+    }
+
+    @PutMapping("/upd/{id}")
+    public ResponseEntity<ForoCurso> updateForo(@PathVariable int id, @RequestBody ForoCurso foroCurso) {
+        var linkId = foroService.findById(id);
+        if (!linkId.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        if (foroService.update(id, foroCurso)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
     }
 }

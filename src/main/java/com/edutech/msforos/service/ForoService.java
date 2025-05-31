@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.edutech.msforos.model.ForoCurso;
-import com.edutech.msforos.model.MensajeForo;
 import com.edutech.msforos.repository.ForoRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -67,9 +66,17 @@ public class ForoService {
         }
     }
 
-    public boolean existsMensaje(List<MensajeForo> mensajes) {
-        return mensajes.stream()
-                .anyMatch(m -> fRepository.findByMensajes(m.getContenido()).isPresent());
+    public Optional<ForoCurso> findByAutorYAutor(String autor, String titulo) {
+
+        var linkForo = fRepository.findBytituloYAutor(titulo);
+        if (linkForo != null && linkForo.getMensajes().stream().anyMatch(m -> m.getAutor().equalsIgnoreCase(autor))) {
+            return Optional.of(linkForo);
+        }
+        return Optional.empty();
+    }
+
+    public boolean existsByTitulo(String titulo) {
+        return fRepository.findByTitulo(titulo).isPresent();
     }
 
 }
