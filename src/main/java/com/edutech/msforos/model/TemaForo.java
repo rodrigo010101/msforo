@@ -2,10 +2,6 @@ package com.edutech.msforos.model;
 
 import java.time.LocalDate;
 import java.util.List;
-
-import org.hibernate.annotations.ManyToAny;
-import org.springframework.jmx.export.annotation.ManagedAttribute;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
