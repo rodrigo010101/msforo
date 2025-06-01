@@ -34,6 +34,12 @@ public class ForoCurso {
     @Column(nullable = false)
     private boolean habilitado = true;
 
+    @Column(nullable = false)
+    private String tema;
+
+    @Column(nullable = false)
+    private String mensaje;
+
     @OneToMany(mappedBy = "foroCurso", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<MensajeForo> mensajes = new ArrayList<>();
