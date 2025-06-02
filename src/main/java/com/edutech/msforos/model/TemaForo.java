@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,7 @@ public class TemaForo {
     private LocalDate fechaModificacion;
 
     @ManyToOne
+    @JoinColumn(name = "foro_curso_id")
     private ForoCurso foroCurso;
 
     @OneToMany(mappedBy = "temaForo", cascade = CascadeType.ALL)

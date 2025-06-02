@@ -35,11 +35,11 @@ public class TemaForoService {
     }
 
     public boolean existsByTitulo(String titulo) {
-        return tmpRepository.finByTitulo(titulo);
+        return tmpRepository.findByTitulo(titulo);
     }
 
     public boolean existsByAutor(String autor) {
-        return tmpRepository.finByAutor(autor);
+        return tmpRepository.findByAutor(autor);
     }
 
     public boolean update(int idtema, TemaForo temaForo) {

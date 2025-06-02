@@ -56,20 +56,20 @@ public class ForoController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{idforo}")
     public ResponseEntity<ForoCurso> getForoId(@PathVariable Integer idforo) {
         try {
             var foro = foroService.findById(idforo);
             if (!foro.isPresent()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(foro.get(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 
-    @DeleteMapping("/del/{id}")
+    @DeleteMapping("/del/{idforo}")
     public ResponseEntity<ForoCurso> deleteForo(@PathVariable Integer idforo) {
         try {
             var foro = foroService.findById(idforo);
@@ -84,7 +84,7 @@ public class ForoController {
         }
     }
 
-    @PutMapping("/upd/{id}")
+    @PutMapping("/upd/{idforo}")
     public ResponseEntity<ForoCurso> updateForo(@PathVariable int id, @RequestBody ForoCurso foroCurso) {
         var linkId = foroService.findById(id);
         if (!linkId.isPresent()) {
