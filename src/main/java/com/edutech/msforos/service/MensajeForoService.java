@@ -40,7 +40,13 @@ public class MensajeForoService {
                 .anyMatch(a -> a.getAutor().equalsIgnoreCase(autor.getAutor()));
     }
 
+    public boolean existsByContenido(MensajeForo contenido) {
+        return contenido.getForoCurso().getMensajes().stream()
+                .anyMatch(c -> c.getContenido().equalsIgnoreCase(contenido.getContenido()));
+    }
+
     public boolean update(int id, MensajeForo mensajeForo) {
+
         MensajeForo udp = mForoRepository.findById(id);
         udp.setIdMensaje(id);
         udp.setAutor(mensajeForo.getAutor());

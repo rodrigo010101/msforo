@@ -35,7 +35,7 @@ public class ForoCurso {
     private boolean habilitado = true;
 
     @Column(nullable = false)
-    private String tema;
+    private String titulo;
 
     @Column(nullable = false)
     private String mensaje;

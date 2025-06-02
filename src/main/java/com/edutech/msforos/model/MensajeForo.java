@@ -45,6 +45,8 @@ public class MensajeForo {
     private ForoCurso foroCurso;
 
     @ManyToOne
+    @JoinColumn(name = "tema_foro_id")
+    @JsonBackReference
     private TemaForo temaForo;
 
 }

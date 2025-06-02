@@ -1,7 +1,5 @@
 package com.edutech.msforos.repository;
 
-import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,12 +10,10 @@ public interface MensajeForoRepository extends JpaRepository<MensajeForo, Intege
 
     MensajeForo findById(int id);
 
-    boolean existsMensaje(String mensaje);
+    boolean existsByTitulo(String titulo);
 
-    Optional<MensajeForo> existsListMensaje(String mensaje);
+    boolean existsByAutor(String autor);
 
-    Optional<MensajeForo> findByTitulo(String titulo);
-
-    Optional<MensajeForo> findByAutor(String autor);
+    boolean existsByContenido(String autor);
 
 }

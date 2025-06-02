@@ -10,10 +10,6 @@ public interface TemaForoRepository extends JpaRepository<TemaForo, Integer> {
 
     TemaForo findById(int idforo);
 
-    TemaForo findByTituloyAutor(String titulo, String Autor);
-
-    boolean findByTema(String tema);
-
     boolean finByTitulo(String titulo);
 
     boolean finByAutor(String autor);

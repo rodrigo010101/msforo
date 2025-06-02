@@ -36,7 +36,6 @@ public class TemaForo {
     @ManyToOne
     private ForoCurso foroCurso;
 
-    @OneToMany(mappedBy = "temaforo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "temaForo", cascade = CascadeType.ALL)
     private List<MensajeForo> mensajes;
-
 }

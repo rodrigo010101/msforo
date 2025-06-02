@@ -66,10 +66,11 @@ public class ForoService {
         }
     }
 
-    public Optional<ForoCurso> findByAutorYAutor(String autor, String titulo) {
+    public Optional<ForoCurso> findBytitulo(String titulo) {
 
-        var linkForo = fRepository.findBytituloYAutor(titulo);
-        if (linkForo != null && linkForo.getMensajes().stream().anyMatch(m -> m.getAutor().equalsIgnoreCase(autor))) {
+        ForoCurso linkForo = fRepository.findByTitulo(titulo).get();
+
+        if (linkForo != null && linkForo.getMensajes().stream().anyMatch(m -> m.getAutor().equalsIgnoreCase(titulo))) {
             return Optional.of(linkForo);
         }
         return Optional.empty();

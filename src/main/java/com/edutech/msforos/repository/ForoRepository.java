@@ -12,8 +12,6 @@ public interface ForoRepository extends JpaRepository<ForoCurso, Integer> {
 
     Optional<ForoCurso> findById(int idForo);
 
-    ForoCurso findBytituloYAutor(String mensaje);
-
     Optional<ForoCurso> findByTitulo(String titulo);
 
 }
