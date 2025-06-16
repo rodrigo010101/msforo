@@ -12,22 +12,22 @@ import com.edutech.msforos.repository.MensajeForoRepository;
 @Service
 public class MensajeForoService {
     @Autowired
-    private MensajeForoRepository mForoRepository;
+    private MensajeForoRepository mensajeForoRepository;
 
     public MensajeForo save(MensajeForo msforo) {
-        return mForoRepository.save(msforo);
+        return mensajeForoRepository.save(msforo);
     }
 
     public List<MensajeForo> findListAll() {
-        return mForoRepository.findAll();
+        return mensajeForoRepository.findAll();
     }
 
     public Optional<MensajeForo> findById(Integer id) {
-        return mForoRepository.findById(id);
+        return mensajeForoRepository.findById(id);
     }
 
-    public void deleteById(int id) {
-        mForoRepository.deleteById(id);
+    public void deleteById(Integer id) {
+        mensajeForoRepository.deleteById(id);
     }
 
     public boolean exitsTituloEnForo(MensajeForo titulo) {
@@ -45,16 +45,20 @@ public class MensajeForoService {
                 .anyMatch(c -> c.getContenido().equalsIgnoreCase(contenido.getContenido()));
     }
 
-    public boolean update(int id, MensajeForo mensajeForo) {
+    public boolean update(Integer id, MensajeForo mensajeForo) {
 
-        MensajeForo udp = mForoRepository.findById(id);
-        udp.setIdMensaje(id);
-        udp.setAutor(mensajeForo.getAutor());
-        udp.setContenido(mensajeForo.getContenido());
-        udp.setTitulo(mensajeForo.getTitulo());
-        udp.setForoCurso(mensajeForo.getForoCurso());
+        Optional<MensajeForo> oPudp = mensajeForoRepository.findById(id);
+        if (oPudp.isPresent()) {
+            MensajeForo udp = oPudp.get();
 
-        mForoRepository.save(udp);
-        return true;
+            udp.setIdMensaje(id);
+            udp.setAutor(mensajeForo.getAutor());
+            udp.setContenido(mensajeForo.getContenido());
+            udp.setTitulo(mensajeForo.getTitulo());
+            udp.setForoCurso(mensajeForo.getForoCurso());
+            mensajeForoRepository.save(udp);
+            return true;
+        }
+        return false;
     }
 }

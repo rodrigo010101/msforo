@@ -5,12 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.edutech.msforos.model.ForoCurso;
@@ -46,6 +48,14 @@ public class ForoCursoTest {
 
     @InjectMocks
     private ForoService foroService;
+
+    private AutoCloseable closeable;
+
+    @BeforeEach
+    void setUp() {
+        // Inicializa los mocks anotados en esta clase
+        closeable = MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     void agregarForo_debeGuardarForoyLuegoRetornarForo() {
